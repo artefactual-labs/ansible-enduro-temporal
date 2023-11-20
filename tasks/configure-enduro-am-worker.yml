@@ -1,0 +1,25 @@
+---
+- name: Copy the enduro-am-worker systemd service file
+  template:
+    src: "{{ item }}"
+    dest: /etc/systemd/system/enduro-am-worker.service
+    owner: root
+    group: root
+    mode: 0644
+  with_first_found:
+    - templates/{{ inventory_hostname }}/enduro-am-worker.service.j2
+    - templates/enduro-am-worker.service.j2
+  notify: restart enduro-am-worker
+
+- name: Copy the enduro-am-worker config file
+  template:
+    src: "{{ item }}"
+    dest: /etc/enduro-am-worker.toml
+    owner: root
+    group: root
+    mode: 0644
+  with_first_found:
+    - templates/{{ inventory_hostname }}/enduro-am-worker.toml.j2
+    - templates/enduro-am-worker.toml.j2
+  notify: restart enduro-am-worker
+

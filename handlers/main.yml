@@ -6,6 +6,13 @@
     name: enduro
     state: restarted
 
+- name: restart enduro-am-worker
+  become: true
+  systemd:
+    daemon_reload: true
+    name: enduro-am-worker
+    state: restarted
+
 - name: restart temporal
   become: true
   systemd:

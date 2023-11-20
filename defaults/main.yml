@@ -22,6 +22,11 @@ enduro_rpm_url: "https://packages.archivematica.org/1.15.x/rocky9-extras/enduro-
 enduro_rpm_gpg_check_enabled: True
 enduro_rpm_gpg_key: "https://packages.archivematica.org/GPG-KEY-archivematica-sha512"
 
+# Enduro AM worker
+enduro_am_worker_install_rpm: False
+enduro_am_worker_rpm_url: "https://packages.archivematica.org/sfa/rocky9-extras/enduro-am-worker-1.0-4.el9.x86_64.rpm"
+enduro_am_worker_configure: False
+
 # Enduro database
 enduro_db_user: "enduro"
 enduro_db_pass: "enduro%123"

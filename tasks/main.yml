@@ -90,6 +90,18 @@
   tags:
     - enduro_configure
 
+- import_tasks: install-enduro-am-worker-rpm.yml
+  when: enduro_am_worker_install_rpm|bool
+  become: true
+  tags:
+    - enduro_am_worker_install
+
+- import_tasks: configure-enduro-am-worker.yml
+  when: enduro_am_worker_configure|bool
+  become: true
+  tags:
+    - enduro_am_worker_configure
+
 - import_tasks: install-temporal-ui.yml
   become: true
   when: temporal_ui_install|bool
@@ -114,3 +126,16 @@
     - temporal
   tags:
     - enduro_run
+
+- name: Ensure enduro-am-worker is enabled on boot
+  become: true
+  systemd:
+    daemon_reload: true
+    name: "{{ item }}"
+    enabled: true
+    state: "restarted"
+  with_items:
+    - enduro-am-worker
+  when: enduro_am_worker_configure|bool
+  tags:
+    - enduro_am_worker_configure
