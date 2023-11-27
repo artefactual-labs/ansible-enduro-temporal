@@ -24,6 +24,7 @@ enduro_rpm_gpg_key: "https://packages.archivematica.org/GPG-KEY-archivematica-sh
 
 # Enduro AM worker
 enduro_am_worker_install_rpm: False
+enduro_am_worker_listen_debug_address: "127.0.0.1:9002"
 enduro_am_worker_rpm_url: "https://packages.archivematica.org/sfa/rocky9-extras/enduro-am-worker-1.0-4.el9.x86_64.rpm"
 enduro_am_worker_configure: False
 

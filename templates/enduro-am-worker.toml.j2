@@ -1,113 +1,99 @@
-# This is the configuration file valid for the development environment.
-#
-# A config option key (e.g. "debug") must appear here in order to set the value
-# via environment variable (e.g. "ENDURO_DEBUG=false").
-
-debug = true
-debugListen = "127.0.0.1:9001"
-verbosity = 2
-useArchivematica = true
+verbosity = "{{ enduro_debug_verbosity }}"
+debug = "{{  enduro_debug_enabled }}"
+debugListen = "{{ enduro_am_worker_listen_debug_address }}"
+useArchivematica = "true"
 
 [temporal]
-namespace = "default"
-address = "temporal.enduro-sdps:7233"
+namespace = "{{ enduro_temporal_namespace }}"
+address = "{{ enduro_listen_temporal_address }}"
 taskQueue = "global"
 
 [api]
-listen = "0.0.0.0:9000"
-debug = false
-corsOrigin = "http://localhost"
+listen = "{{ enduro_listen_api_address }}"
+debug = "{{ enduro_api_debug_enabled }}"
 
 [api.auth]
-enabled = true
-
-[api.auth.oidc]
-providerURL = "http://dex:5556"
-clientID = "enduro"
-clientSecret = "ZXhhbXBsZS1hcHAtc2VjcmV0"
-
-[api.auth.ticket.redis]
-address = "redis://redis.enduro-sdps:6379"
-prefix = "enduro"
+enabled = false
 
 [event]
-redisAddress = "redis://redis.enduro-sdps:6379"
+redisAddress = "redis://127.0.0.1:6379"
 redisChannel = "enduro-events"
 
-[database]
-driver = "mysql"
-dsn = "enduro:enduro123@tcp(mysql.enduro-sdps:3306)/enduro"
-migrate = true
 
-[watcher.embedded]
-name = "dev-minio"
-redisAddress = "redis://redis.enduro-sdps:6379"
-redisList = "minio-events"
-endpoint = "http://minio.enduro-sdps:9000"
-pathStyle = true
-key = "minio"
-secret = "minio123"
-region = "us-west-1"
-bucket = "sips"
-stripTopLevelDir = true
+[database]
+dsn = "{{ enduro_db_user }}:{{ enduro_db_pass }}@tcp({{ enduro_db_host }}:{{ enduro_db_port | int }})/{{ enduro_db_name }}"
+driver = "mysql"
+migrate = "true"
 
 [storage]
 enduroAddress = "enduro-internal:9000"
 
 [storage.database]
+dsn = "{{ enduro_storage_db_user }}:{{ enduro_storage_db_pass }}@tcp({{ enduro_storage_db_host }}:{{ enduro_storage_db_port | int }})/{{ enduro_storage_db_name }}"
 driver = "mysql"
-dsn = "enduro:enduro123@tcp(mysql.enduro-sdps:3306)/enduro_storage"
 migrate = true
 
+
+######## Minio watched folders ######
+
+{% if enduro_minio_pipelines|length > 0 %}
+{% for pipeline in enduro_minio_pipelines %}
+
 [storage.internal]
-endpoint = "http://minio.enduro-sdps:9000"
+endpoint = "{{ pipeline.watched_endpoint }}"
 pathStyle = true
-key = "minio"
-secret = "minio123"
-region = "us-west-1"
+key = "{{ pipeline.watched_key }}"
+secret = "{{ pipeline.watched_secret }}"
+region = "{{ pipeline.watched_region }}"
 bucket = "aips"
 
-[a3m]
-address = "127.0.0.1:7000"
-shareDir = "/home/a3m/.local/share/a3m/share"
+[upload]
+endpoint = "{{ pipeline.watched_endpoint }}"
+pathStyle = true
+key = "{{ pipeline.watched_key }}"
+secret = "{{ pipeline.watched_secret }}"
+region = "{{ pipeline.watched_region }}"
+bucket = "sips"
 
-[a3m.processing]
-AssignUuidsToDirectories                     = true
-ExamineContents                              = true
-GenerateTransferStructureReport              = true
-DocumentEmptyDirectories                     = true
-ExtractPackages                              = true
-DeletePackagesAfterExtraction                = true
-IdentifyTransfer                             = true
-IdentifySubmissionAndMetadata                = true
-IdentifyBeforeNormalization                  = true
-Normalize                                    = true
-TranscribeFiles                              = true
-PerformPolicyChecksOnOriginals               = true
-PerformPolicyChecksOnPreservationDerivatives = true
-AipCompressionLevel                          = 1
-AipCompressionAlgorithm                      = 6
+[watcher.embedded]
+name = "{{ pipeline.watched_name }}"
+redisAddress = "{{ pipeline.watched_redisAddress }}"
+redisList = "{{ pipeline.watched_redisList }}"
+endpoint = "{{ pipeline.watched_endpoint }}"
+pathStyle = "{{ pipeline.watched_pathStyle }}"
+key = "{{ pipeline.watched_key }}"
+secret = "{{ pipeline.watched_secret }}"
+region = "{{ pipeline.watched_region }}"
+bucket = "{{ pipeline.watched_bucket }}"
+pipeline = "{{ pipeline.name }}"
+## retentionPeriod = "{{ pipeline.watched_retentionPeriod }}"
+stripTopLevelDir = "{{ pipeline.watched_stripTopLevelDir }}"
+##rejectDuplicates = "{{ pipeline.watched_rejectDuplicates | default('false') }}"
 
 [am]
-address = "https://pipeline3.analyst.archivematica.net"
-user = "" # Secret: set with env var ENDURO_AM_USER.
-apiKey = "" # Secret: set with env var ENDURO_AM_APIKEY.
-processingConfig = "automated"
+name = "{{ pipeline.name }}"
+address = "{{ pipeline.baseURL }}"
+user = "{{ pipeline.user }}"
+key = "{{ pipeline.key }}"
+#### transferDir = "{{ pipeline.transfer_dir }}"
+processingConfig = "{{ pipeline.processing_config }}"
+{% if pipeline.transferLocationID is defined %}
+transferLocationID = "{{ pipeline.transferLocationID }}"
+{% endif %}
+retryDeadline = "{{ pipeline.retryDeadline }}"
+pollInterval = "{{ pipeline.pollInterval | default ('10s')}}"
+transferDeadline = "{{ pipeline.transferDeadline }}"
 
 [am.sftp]
-host = "enduro-temporal.ss.analyst.archivematica.net" # This should be the Storage Service hostname.
-user = "artefactual"
-knownHostsFile = "/etc/ssh/known_hosts"
-remoteDir = "/transfer_source"
+host = "{{ archivematica_fqdn_host }}"
+user = "archivematica"
+knownHostsFile = "/var/lib/enduro/.ssh/known_hosts"
+remoteDir = "{{ pipeline.transfer_dir }}"
 
-[am.sftp.privateKey]
-path = "/etc/ssh/id_ed25519"
-passphrase = "" # Secret: set (if required) with env var ENDURO_AM_SFTP_PRIVATEKEY_PASSPHRASE.
+{% endfor %}
+{% endif %}
 
-[upload]
-endpoint = "http://minio.enduro-sdps:9000"
-pathStyle = true
-key = "minio"
-secret = "minio123"
-region = "us-west-1"
-bucket = "sips"
+
+[preservation]
+taskqueue = "am"
+
