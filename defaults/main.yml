@@ -87,6 +87,35 @@ enduro_minio_pipelines: []
 #    watched_stripTopLevelDir: "true"
 #    watched_rejectDuplicates: "false"
 
+enduro_sfa_pipelines: []
+
+#enduro_minio_pipelines:
+#  - name: "pipeline1"
+#    baseURL: "http://pipeline1.archivematica.org"
+#    user: "test"
+#    key: "test"
+#    transfer_dir: "/transfers/pipeline1"
+#    processing_dir: ""
+#    processing_config: "automated"
+#    # transferLocationID = "88f6b517-c0cc-411b-8abf-79544ce96f54" # Optional
+#    storageServiceURL: "http://test:test@ss.archivematica.org:8000"
+#    capacity: 3
+#    retryDeadline: "10m"
+#    transferDeadline: "24h"
+#    watched_name: "watched-pipeline1"
+#    watched_redisAddress: "redis://127.0.0.1:7470"
+#    watched_redisList: "minio-events"
+#    watched_endpoint: "http://127.0.0.1:7460"
+#    watched_pathStyle: "true"
+#    watched_key: "minio"
+#    watched_secret: "minio123"
+#    watched_region: "us-west-1"
+#    watched_bucket: "sips"
+#    watched_retentionPeriod: "10s"
+#    watched_stripTopLevelDir: "true"
+#    watched_rejectDuplicates: "false"
+
+
 # tctl variables
 tctl_version: "1.18.0"
 tctl_binary_install_dir: "/usr/local/bin"

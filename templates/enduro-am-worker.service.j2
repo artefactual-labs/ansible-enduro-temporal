@@ -8,7 +8,8 @@ Type=simple
 WorkingDirectory=/var/lib/enduro
 User=enduro
 Group=enduro
-ExecStart=/usr/bin/enduro-am-worker --config /etc/enduro-am-worker.toml 
+EnvironmentFile=-/etc/sysconfig/enduro-am-worker
+ExecStart=/usr/bin/enduro-am-worker --config /etc/enduro.toml
 
 # Let systemd restart this service always
 #Restart=always

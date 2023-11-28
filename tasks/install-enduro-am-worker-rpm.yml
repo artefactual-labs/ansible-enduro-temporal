@@ -30,3 +30,11 @@
     name: "{{ enduro_am_worker_rpm_url }}"
     state: present
     disable_gpg_check: "{{ not enduro_rpm_gpg_check_enabled|bool }}"
+
+- name: "Create config file"
+  template:
+     src: "etc/sysconfig/enduro-am-worker.j2"
+     dest: "/etc/sysconfig/enduro-am-worker"
+     mode: 0640
+     owner: "{{ enduro_system_user }}"
+     group: "{{ enduro_system_group }}"

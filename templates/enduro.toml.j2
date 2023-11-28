@@ -1,43 +1,114 @@
 verbosity = "{{ enduro_debug_verbosity }}"
 debug = "{{  enduro_debug_enabled }}"
 debugListen = "{{ enduro_listen_debug_address }}"
+{% if enduro_sfa_pipelines|length > 0 %}
 useArchivematica = "true"
+{% endif %}
 
 [temporal]
 namespace = "{{ enduro_temporal_namespace }}"
 address = "{{ enduro_listen_temporal_address }}"
+{% if enduro_sfa_pipelines|length > 0 %}
 taskQueue = "global"
+{% endif %}
 
 [api]
 listen = "{{ enduro_listen_api_address }}"
 debug = "{{ enduro_api_debug_enabled }}"
 
+
+{% if enduro_sfa_pipelines|length > 0 %}
 [api.auth]
 enabled = false
 
 [event]
 redisAddress = "redis://127.0.0.1:6379"
 redisChannel = "enduro-events"
-
+{% endif %}
 
 [database]
 dsn = "{{ enduro_db_user }}:{{ enduro_db_pass }}@tcp({{ enduro_db_host }}:{{ enduro_db_port | int }})/{{ enduro_db_name }}"
+{% if enduro_sfa_pipelines|length > 0 %}
 driver = "mysql"
 migrate = "true"
-
-[storage]
-enduroAddress = "enduro-internal:9000"
 
 [storage.database]
 dsn = "{{ enduro_storage_db_user }}:{{ enduro_storage_db_pass }}@tcp({{ enduro_storage_db_host }}:{{ enduro_storage_db_port | int }})/{{ enduro_storage_db_name }}"
 driver = "mysql"
 migrate = true
+{% endif %}
 
 
-######## Minio watched folders ######
+{% if enduro_filesystem_pipelines|length > 0 %}
+{% for pipeline in enduro_filesystem_pipelines %}
+[[watcher.filesystem]]
+name = "{{ pipeline.watched_name }}"
+path = "{{ pipeline.watched_path }}"
+inotify = "{{ pipeline.watched_inotify }}"
+pipeline = "{{ pipeline.name }}"
+stripTopLevelDir = "{{ pipeline.watched_stripTopLevelDir }}"
+retentionPeriod = "{{ pipeline.watched_retentionPeriod }}"
+rejectDuplicates = "{{ pipeline.watched_rejectDuplicates | default('false') }}"
+ignore = "{{ pipeline.watched_ignore | default('(^\.gitkeep)|(^*\.mft)$') }}"
+
+[[pipeline]]
+name = "{{ pipeline.name }}"
+baseURL = "{{ pipeline.baseURL }}"
+user = "{{ pipeline.user }}"
+key = "{{ pipeline.key }}"
+transferDir = "{{ pipeline.transfer_dir }}"
+processingDir = "{{ pipeline.processing_dir }}"
+processingConfig = "{{ pipeline.processing_config }}"
+{% if pipeline.transferLocationID is defined %}
+transferLocationID = "{{ pipeline.transferLocationID }}"
+{% endif %}
+storageServiceURL = "{{ pipeline.storageServiceURL }}"
+capacity = "{{ pipeline.capacity }}"
+retryDeadline = "{{ pipeline.retryDeadline }}"
+transferDeadline = "{{ pipeline.transferDeadline }}"
+
+{% endfor %}
+{% endif %}
 
 {% if enduro_minio_pipelines|length > 0 %}
 {% for pipeline in enduro_minio_pipelines %}
+[[watcher.minio]]
+name = "{{ pipeline.watched_name }}"
+redisAddress = "{{ pipeline.watched_redisAddress }}"
+redisList = "{{ pipeline.watched_redisList }}"
+endpoint = "{{ pipeline.watched_endpoint }}"
+pathStyle = "{{ pipeline.watched_pathStyle }}"
+key = "{{ pipeline.watched_key }}"
+secret = "{{ pipeline.watched_secret }}"
+region = "{{ pipeline.watched_region }}"
+bucket = "{{ pipeline.watched_bucket }}"
+pipeline = "{{ pipeline.name }}"
+retentionPeriod = "{{ pipeline.watched_retentionPeriod }}"
+stripTopLevelDir = "{{ pipeline.watched_stripTopLevelDir }}"
+rejectDuplicates = "{{ pipeline.watched_rejectDuplicates | default('false') }}"
+
+[[pipeline]]
+name = "{{ pipeline.name }}"
+baseURL = "{{ pipeline.baseURL }}"
+user = "{{ pipeline.user }}"
+key = "{{ pipeline.key }}"
+transferDir = "{{ pipeline.transfer_dir }}"
+processingDir = "{{ pipeline.processing_dir }}"
+processingConfig = "{{ pipeline.processing_config }}"
+{% if pipeline.transferLocationID is defined %}
+transferLocationID = "{{ pipeline.transferLocationID }}"
+{% endif %}
+storageServiceURL = "{{ pipeline.storageServiceURL }}"
+capacity = "{{ pipeline.capacity }}"
+retryDeadline = "{{ pipeline.retryDeadline }}"
+transferDeadline = "{{ pipeline.transferDeadline }}"
+
+{% endfor %}
+{% endif %}
+
+
+{% if enduro_sfa_pipelines|length > 0 %}
+{% for pipeline in enduro_sfa_pipelines %}
 
 [storage.internal]
 endpoint = "{{ pipeline.watched_endpoint }}"
@@ -106,10 +177,31 @@ user = "archivematica"
 knownHostsFile = "/var/lib/enduro/.ssh/known_hosts"
 remoteDir = "{{ pipeline.transfer_dir }}"
 
+[preservation]
+taskqueue = "am"
+
 {% endfor %}
 {% endif %}
 
 
-[preservation]
-taskqueue = "am"
+
+{% if enduro_minio_pipelines|length > 0 %}
+
+[[hooks."hari"]]
+mock = true
+disabled = true
+#baseURL = "" # E.g.: "https://192.168.1.50:8080/api"
+baseURL = "http://tr-pvl-hari-001/api"
+
+
+[[hooks."prod"]]
+receiptPath = "/staging/storage-receipts"
+disabled = true
+
+{% endif %}
+
+{% if enduro_filesystem_pipelines|length > 0 %}
+[validation]
+checksumsCheckEnabled = false
+{% endif %}
 
