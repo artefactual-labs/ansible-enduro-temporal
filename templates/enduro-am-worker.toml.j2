@@ -47,6 +47,22 @@ secret = "{{ pipeline.watched_secret }}"
 region = "{{ pipeline.watched_region }}"
 bucket = "aips"
 
+[failedtransfers]
+endpoint = "{{ pipeline.watched_endpoint }}"
+pathStyle = true
+key = "{{ pipeline.watched_key }}"
+secret = "{{ pipeline.watched_secret }}"
+region = "{{ pipeline.watched_region }}"
+bucket = "failed-transfers"
+
+[failedsips]
+endpoint = "{{ pipeline.watched_endpoint }}"
+pathStyle = true
+key = "{{ pipeline.watched_key }}"
+secret = "{{ pipeline.watched_secret }}"
+region = "{{ pipeline.watched_region }}"
+bucket = "failed-sips"
+
 [upload]
 endpoint = "{{ pipeline.watched_endpoint }}"
 pathStyle = true
@@ -74,7 +90,7 @@ stripTopLevelDir = "{{ pipeline.watched_stripTopLevelDir }}"
 name = "{{ pipeline.name }}"
 address = "{{ pipeline.baseURL }}"
 user = "{{ pipeline.user }}"
-key = "{{ pipeline.key }}"
+apiKey = "{{ pipeline.key }}"
 #### transferDir = "{{ pipeline.transfer_dir }}"
 processingConfig = "{{ pipeline.processing_config }}"
 {% if pipeline.transferLocationID is defined %}
