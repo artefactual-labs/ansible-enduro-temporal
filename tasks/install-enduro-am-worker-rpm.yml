@@ -16,6 +16,7 @@
     system: true
     createhome: true
     home: /var/lib/enduro
+    generate_ssh_key: true
   when: enduro_create_system_user|bool
 
 - name: "Add GPG key for rpm repo (RedHat)"

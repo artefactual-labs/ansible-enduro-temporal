@@ -90,6 +90,12 @@
   tags:
     - enduro_configure
 
+- import_tasks: configure-enduro-dashboard.yml
+  become: true
+  tags:
+    - enduro_configure_dashboard
+
+
 - import_tasks: install-enduro-am-worker-rpm.yml
   when: enduro_am_worker_install_rpm|bool
   become: true
