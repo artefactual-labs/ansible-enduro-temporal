@@ -13,14 +13,11 @@
 
 - name: Copy the enduro config file
   template:
-    src: "{{ item }}"
+    src: "{{ enduro_template_enduro_toml }}"
     dest: /etc/enduro.toml
     owner: root
     group: root
     mode: 0644
-  with_first_found:
-    - templates/{{ inventory_hostname }}/enduro.toml.j2
-    - templates/enduro.toml.j2
   notify: restart enduro
 
 - name: "Create watched.filesystem path directories"

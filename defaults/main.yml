@@ -81,6 +81,8 @@ enduro_minio_pipelines: []
 #    watched_stripTopLevelDir: "true"
 #    watched_rejectDuplicates: "false"
 
+enduro_template_enduro_toml: templates/enduro.toml.j2
+
 # tctl variables
 tctl_version: "1.18.0"
 tctl_binary_install_dir: "/usr/local/bin"
