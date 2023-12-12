@@ -37,8 +37,8 @@
   become: "yes"
   shell: "{{ item }}"
   with_items:
-    - "{{ temporal_binary_install_dir }}/temporal-sql-tool --db {{ temporal_db_name }} --ep {{ temporal_db_host }} --user {{ temporal_db_user }} --password {{ temporal_db_pass }} setup-schema -v 0.1"
-    - "{{ temporal_binary_install_dir }}/temporal-sql-tool --db {{ temporal_visibility_db_name }} --ep {{ temporal_visibility_db_host }} --user {{ temporal_visibility_db_user }} --password {{ temporal_visibility_db_pass }} setup-schema -v 0.1"
+    - "{{ temporal_binary_install_dir }}/temporal-sql-tool --db {{ temporal_db_name }} --ep {{ temporal_db_host }} --port {{ temporal_db_port }} --user {{ temporal_db_user }} --password {{ temporal_db_pass }} setup-schema -v 0.1"
+    - "{{ temporal_binary_install_dir }}/temporal-sql-tool --db {{ temporal_visibility_db_name }} --ep {{ temporal_visibility_db_host }} --port {{ temporal_visibility_db_port }} --user {{ temporal_visibility_db_user }} --password {{ temporal_visibility_db_pass }} setup-schema -v 0.1"
   no_log: "{{ temporal_ansible_db_tasks_no_log }}"
   tags:
     - "temporal-setup-schema"
@@ -47,8 +47,8 @@
   become: "yes"
   shell: "{{ item }}"
   with_items:
-    - "{{ temporal_binary_install_dir }}/temporal-sql-tool --db {{ temporal_db_name }} --ep {{ temporal_db_host }} --user {{ temporal_db_user }} --password {{ temporal_db_pass }} update-schema -d {{ temporal_schema_plugin_path }}/temporal/versioned/"
-    - "{{ temporal_binary_install_dir }}/temporal-sql-tool --db {{ temporal_visibility_db_name }} --ep {{ temporal_visibility_db_host }} --user {{ temporal_visibility_db_user }} --password {{ temporal_visibility_db_pass }} update-schema -d {{ temporal_schema_plugin_path }}/visibility/versioned/"
+    - "{{ temporal_binary_install_dir }}/temporal-sql-tool --db {{ temporal_db_name }} --ep {{ temporal_db_host }} --port {{ temporal_db_port }} --user {{ temporal_db_user }} --password {{ temporal_db_pass }} update-schema -d {{ temporal_schema_plugin_path }}/temporal/versioned/"
+    - "{{ temporal_binary_install_dir }}/temporal-sql-tool --db {{ temporal_visibility_db_name }} --ep {{ temporal_visibility_db_host }} --port {{ temporal_visibility_db_port }} --user {{ temporal_visibility_db_user }} --password {{ temporal_visibility_db_pass }} update-schema -d {{ temporal_schema_plugin_path }}/visibility/versioned/"
   no_log: "{{ temporal_ansible_db_tasks_no_log }}"
   tags:
     - "temporal-run-migrations"
