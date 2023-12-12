@@ -156,3 +156,6 @@ temporal_ui_rpm_gpg_key: "https://packages.archivematica.org/GPG-KEY-archivemati
 
 temporal_ui_deb_url: "https://packages.archivematica.org/1.15.x/ubuntu-externals/pool/main/t/temporal-ui/temporal-ui_2.20.0-1~focal_amd64.deb"
 #temporal_ui_deb_url: "https://packages.archivematica.org/1.15.x/ubuntu-externals/pool/main/t/temporal-ui/temporal-ui_2.20.0-1~jammy_amd64.deb"
+
+# temporal hide ansible logs in db related tasks
+temporal_ansible_db_tasks_no_log: true
