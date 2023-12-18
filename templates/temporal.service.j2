@@ -6,7 +6,7 @@ After={{ temporal_systemd_after_services }}
 Type=simple
 Restart=on-failure
 User={{ temporal_system_user }}
-ExecStart={{ temporal_binary_install_dir }}/temporal-server --root=/etc/temporal --env={{ temporal_env }} start --services=frontend,matching,history,worker
+ExecStart={{ temporal_binary_install_dir }}/temporal-server --root=/etc/temporal --env={{ temporal_env }} start --service=frontend --service=matching --service=history --service=worker
 
 [Install]
 WantedBy={{ temporal_systemd_wantedby_services }}
