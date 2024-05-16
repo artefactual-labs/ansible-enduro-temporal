@@ -19,3 +19,11 @@
     daemon_reload: true
     name: temporal
     state: restarted
+
+
+- name: restart preprocessing-worker
+  become: true
+  systemd:
+    daemon_reload: true
+    name: preprocessing-worker
+    state: restarted

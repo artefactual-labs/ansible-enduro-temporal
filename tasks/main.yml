@@ -108,6 +108,19 @@
   tags:
     - enduro_am_worker_configure
 
+- import_tasks: install-preprocessing-worker-rpm.yml
+  when: preprocessing_worker_install_rpm|bool
+  become: true
+  tags:
+    - preprocessing_worker_install
+
+- import_tasks: configure-preprocessing-worker.yml
+  when: preprocessing_worker_configure|bool
+  become: true
+  tags:
+    - preprocessing_worker_configure
+
+
 - import_tasks: install-temporal-ui.yml
   become: true
   when: temporal_ui_install|bool
@@ -145,3 +158,16 @@
   when: enduro_am_worker_configure|bool
   tags:
     - enduro_am_worker_configure
+
+- name: Ensure preprocessing-worker is enabled on boot
+  become: true
+  systemd:
+    daemon_reload: true
+    name: "{{ item }}"
+    enabled: true
+    state: "restarted"
+  with_items:
+    - preprocessing-worker
+  when: preprocessing_worker_configure|bool
+  tags:
+    - preprocessing_worker_configure

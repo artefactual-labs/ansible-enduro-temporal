@@ -1,0 +1,15 @@
+---
+
+- name: Copy the preprocessing worker config file
+  template:
+    src: "{{ item }}"
+    dest: /etc/preprocessing-worker.toml
+    owner: root
+    group: root
+    mode: 0644
+  with_first_found:
+    - templates/{{ inventory_hostname }}/preprocessing-worker.toml.j2
+    - templates/preprocessing-worker.toml.j2
+  notify: restart preprocessing-worker
+
+
