@@ -108,7 +108,7 @@
   tags:
     - enduro_am_worker_configure
 
-- import_tasks: install-preprocessing-worker-rpm.yml
+- import_tasks: install-preprocessing-worker.yml
   when: preprocessing_worker_install_rpm|bool
   become: true
   tags:
