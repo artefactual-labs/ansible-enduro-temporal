@@ -1,5 +1,14 @@
 ---
 
+- name: "Create preprocessing shared folder"
+  become: yes
+  file:
+    path: "/var/lib/enduro/preprocessing"
+    owner: "{{ enduro_system_user }}"
+    group: "{{ enduro_system_group }}"
+    mode: 0755
+    state: "directory"
+
 - name: Copy the preprocessing worker config file
   template:
     src: "{{ item }}"
