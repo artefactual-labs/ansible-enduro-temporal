@@ -110,6 +110,22 @@ transferDeadline = "{{ pipeline.transferDeadline }}"
 {% if enduro_sfa_pipelines|length > 0 %}
 {% for pipeline in enduro_sfa_pipelines %}
 
+[preprocessing]
+enabled = true
+extract = false
+sharedPath = "/var/lib/enduro/preprocessing"
+
+[preprocessing.temporal]
+namespace = "default"
+taskQueue = "preprocessing"
+workflowName = "preprocessing"
+
+
+[storage]
+enduroAddress = "127.0.0.1:9000"
+defaultPermanentLocationId = "e0ed8b2a-8ae2-4546-b5d8-f0090919df04"
+
+
 [storage.internal]
 endpoint = "{{ pipeline.watched_endpoint }}"
 pathStyle = true
@@ -182,6 +198,7 @@ taskqueue = "am"
 
 {% endfor %}
 {% endif %}
+
 
 
 
