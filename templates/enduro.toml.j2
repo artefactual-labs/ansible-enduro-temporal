@@ -21,6 +21,16 @@ debug = "{{ enduro_api_debug_enabled }}"
 [api.auth]
 enabled = false
 
+[api.auth.oidc]
+providerURL = ""
+clientID = ""
+
+[api.auth.oidc.abac]
+enabled = false
+claimPath = ""
+claimPathSeparator = ""
+claimValuePrefix = ""
+
 [event]
 redisAddress = "redis://127.0.0.1:6379"
 redisChannel = "enduro-events"
@@ -134,15 +144,15 @@ secret = "{{ pipeline.watched_secret }}"
 region = "{{ pipeline.watched_region }}"
 bucket = "aips"
 
-[failedtransfers]
+[failedPips]
 endpoint = "{{ pipeline.watched_endpoint }}"
 pathStyle = true
 key = "{{ pipeline.watched_key }}"
 secret = "{{ pipeline.watched_secret }}"
 region = "{{ pipeline.watched_region }}"
-bucket = "failed-transfers"
+bucket = "failed-pips"
 
-[failedsips]
+[failedSips]
 endpoint = "{{ pipeline.watched_endpoint }}"
 pathStyle = true
 key = "{{ pipeline.watched_key }}"
