@@ -19,17 +19,21 @@ debug = "{{ enduro_api_debug_enabled }}"
 
 {% if enduro_sfa_pipelines|length > 0 %}
 [api.auth]
-enabled = false
+enabled = "{{ enduro_auth_enabled }}"
 
 [api.auth.oidc]
-providerURL = ""
-clientID = ""
+providerURL = "{{ enduro_auth_oidc_provider_url }}"
+clientID = "{{ enduro_auth_oidc_api_client_id }}"
 
 [api.auth.oidc.abac]
-enabled = false
-claimPath = ""
-claimPathSeparator = ""
-claimValuePrefix = ""
+enabled = "{{ enduro_auth_oidc_abac_enabled }}"
+claimPath = "{{ enduro_auth_oidc_abac_claim_path }}"
+claimPathSeparator = "{{ enduro_auth_oidc_abac_claim_path_separator }}"
+claimValuePrefix = "{{ enduro_auth_oidc_abac_claim_value_prefix }}"
+
+[api.auth.ticket.redis]
+address = "redis://127.0.0.1:6379"
+prefix = "enduro-ticket"
 
 [event]
 redisAddress = "redis://127.0.0.1:6379"
@@ -231,4 +235,3 @@ disabled = true
 [validation]
 checksumsCheckEnabled = false
 {% endif %}
-

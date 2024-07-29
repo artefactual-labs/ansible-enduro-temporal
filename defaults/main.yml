@@ -17,6 +17,19 @@ enduro_create_watched_filesystem_dir: "true"
 enduro_create_pipeline_transfer_dir: "true"
 enduro_create_system_user: "true"
 
+# Enduro API/Dashboard auth
+enduro_auth_enabled: "false"
+enduro_auth_oidc_base_url: ""
+enduro_auth_oidc_provider_url: ""
+enduro_auth_oidc_api_client_id: ""
+enduro_auth_oidc_dashboard_client_id: ""
+enduro_auth_oidc_extra_scopes: ""
+enduro_auth_oidc_extra_query_params: ""
+enduro_auth_oidc_abac_enabled: "false"
+enduro_auth_oidc_abac_claim_path: ""
+enduro_auth_oidc_abac_claim_path_separator: ""
+enduro_auth_oidc_abac_claim_value_prefix: ""
+
 enduro_install_rpm: False
 enduro_rpm_url: "https://packages.archivematica.org/1.15.x/rocky9-extras/enduro-0.41.1-1.el9.x86_64.rpm"
 enduro_rpm_gpg_check_enabled: True
