@@ -12,6 +12,10 @@ address = "{{ enduro_listen_temporal_address }}"
 taskQueue = "global"
 {% endif %}
 
+[internalapi]
+listen = "{{ enduro_internal_api_listen }}"
+debug = "{{enduro_internal_api_debug }}"
+
 [api]
 listen = "{{ enduro_listen_api_address }}"
 debug = "{{ enduro_api_debug_enabled }}"
@@ -136,7 +140,7 @@ workflowName = "preprocessing"
 
 
 [storage]
-enduroAddress = "127.0.0.1:9000"
+enduroAddress = "{{ enduro_storage_enduro_address }}"
 defaultPermanentLocationId = "{{ enduro_storage_location_uuid }}"
 
 
