@@ -13,3 +13,29 @@ maxConcurrentSessions = 1
 
 [bagit]
 checksumAlgorithm = "md5"
+
+[ais]
+listen = "127.0.0.1:9035"
+workingDir = "/tmp"
+
+[ais.temporal]
+address = "127.0.0.1:7233"
+namespace = "default"
+taskQueue = "ais"
+workflowName = "ais"
+
+[ais.worker]
+maxConcurrentSessions = 1
+
+[ais.amss]
+url = "http://127.0.0.1:8000"
+user = "test"
+key = "test"
+
+[ais.bucket]
+endpoint = "http://127.0.0.1:9000"
+pathStyle = true
+accessKey = "minio"
+secretKey = "minio123"
+region = "us-west-1"
+bucket = "ais"
