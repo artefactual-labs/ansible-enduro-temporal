@@ -204,6 +204,7 @@ transferLocationID = "{{ pipeline.transferLocationID }}"
 retryDeadline = "{{ pipeline.retryDeadline }}"
 pollInterval = "{{ pipeline.pollInterval | default ('10s')}}"
 transferDeadline = "{{ pipeline.transferDeadline }}"
+transferSourcePath = "{{ pipeline.transferSourcePath }}"
 
 [am.sftp]
 host = "{{ archivematica_fqdn_host }}"
