@@ -12,10 +12,6 @@ address = "{{ enduro_listen_temporal_address }}"
 taskQueue = "global"
 {% endif %}
 
-[internalapi]
-listen = "{{ enduro_internal_api_listen }}"
-debug = "{{enduro_internal_api_debug }}"
-
 [api]
 listen = "{{ enduro_listen_api_address }}"
 debug = "{{ enduro_api_debug_enabled }}"
@@ -42,6 +38,10 @@ prefix = "enduro-ticket"
 [event]
 redisAddress = "redis://127.0.0.1:6379"
 redisChannel = "enduro-events"
+
+[internalapi]
+listen = "{{ enduro_internal_api_listen }}"
+debug = "{{enduro_internal_api_debug }}"
 {% endif %}
 
 [database]
