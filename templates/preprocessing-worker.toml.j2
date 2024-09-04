@@ -1,3 +1,6 @@
+{% if enduro_sfa_pipelines|length > 0 %}
+{% set pipeline = enduro_sfa_pipelines[0] %}
+
 debug = true
 verbosity = 2
 sharedPath = "/var/lib/enduro/preprocessing"
@@ -28,14 +31,16 @@ workflowName = "ais"
 maxConcurrentSessions = 1
 
 [ais.amss]
-url = "http://127.0.0.1:8000"
-user = "test"
-key = "test"
+url = "{{ pipeline.storageServiceURL }}"
+user = "{{ pipeline.storageServiceUser }}"
+key = "{{ pipeline.storageServiceKey }}"
 
 [ais.bucket]
-endpoint = "http://127.0.0.1:9000"
+endpoint = "{{ pipeline.watched_endpoint }}"
 pathStyle = true
-accessKey = "minio"
-secretKey = "minio123"
-region = "us-west-1"
+accessKey = "{{ pipeline.watched_key }}"
+secretKey = "{{ pipeline.watched_secret }}"
+region = "{{ pipeline.watched_region }}"
 bucket = "ais"
+
+{% endif %}
