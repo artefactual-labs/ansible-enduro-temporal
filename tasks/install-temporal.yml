@@ -60,7 +60,7 @@
     - temporal-sql-tool
   when: not ansible_check_mode
 
-- name: Download temporal sources to local folder (directly on enduro server)
+- name: Download temporal sources to local folder (directly on temporal server)
   become: false
   get_url:
     url: "https://github.com/temporalio/temporal/archive/refs/tags/v{{ temporal_version }}.tar.gz"

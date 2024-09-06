@@ -1,2 +1,2 @@
-# ansible-enduro-temporal
+# ansible-temporal
 Ansible role for deploying Temporal

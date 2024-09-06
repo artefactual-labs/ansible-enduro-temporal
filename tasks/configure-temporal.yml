@@ -63,17 +63,17 @@
     - "temporal-namespace"
 
 # By default only temporal-system namespace exists
-- name: "Ensure {{ enduro_temporal_namespace }} namespace exists"
+- name: "Ensure {{ temporal_namespace }} namespace exists"
   become: "yes"
-  shell: "{{ tctl_binary_install_dir }}/tctl --namespace {{ enduro_temporal_namespace }} namespace register"
+  shell: "{{ tctl_binary_install_dir }}/tctl --namespace {{ temporal_namespace }} namespace register"
   failed_when: false
   changed_when: false
   check_mode: false
   tags:
     - "temporal-namespace"
 
-- name: "Configure retention period in {{ enduro_temporal_namespace }} namespace"
+- name: "Configure retention period in {{ temporal_namespace }} namespace"
   become: "yes"
-  shell: "{{ tctl_binary_install_dir }}/tctl --namespace {{ enduro_temporal_namespace }} namespace update --rd {{ enduro_temporal_namespace_retention_period }}"
+  shell: "{{ tctl_binary_install_dir }}/tctl --namespace {{ temporal_namespace }} namespace update --rd {{ temporal_namespace_retention_period }}"
   tags:
     - "temporal-retention-period"

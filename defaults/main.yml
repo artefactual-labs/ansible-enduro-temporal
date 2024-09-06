@@ -1,4 +1,9 @@
 ---
+# temporal namespace
+
+temporal_namespace: "default" # By default only temporal-system namespace exists
+temporal_namespace_retention_period: 60 # In days
+
 
 # tctl variables
 tctl_version: "1.18.0"
@@ -7,7 +12,7 @@ tctl_binary_install_dir: "/usr/local/bin"
 tctl_install_rpm: False
 tctl_rpm_url: "https://packages.archivematica.org/1.15.x/rocky9-extras/tctl-1.18.0-1.el9.x86_64.rpm"
 tctl_rpm_gpg_check_enabled: True
-tctl_rpm_gpg_key: "{{ enduro_rpm_gpg_key }}"
+tctl_rpm_gpg_key: "https://packages.archivematica.org/GPG-KEY-archivematica-sha512"
 
 # Temporal internal variables
 temporal_version: "1.21.1"
@@ -40,7 +45,7 @@ temporal_archival_history_URI: "file:///tmp/temporal_archival/development"
 temporal_install_rpm: False
 temporal_rpm_url: "https://packages.archivematica.org/1.15.x/rocky9-extras/temporal-1.22.0-1.el9.x86_64.rpm"
 temporal_rpm_gpg_check_enabled: True
-temporal_rpm_gpg_key: "{{ enduro_rpm_gpg_key }}"
+temporal_rpm_gpg_key: "https://packages.archivematica.org/GPG-KEY-archivematica-sha512"
 
 # Temporal database
 temporal_db_user: "temporal"
