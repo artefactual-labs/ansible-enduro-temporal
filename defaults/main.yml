@@ -8,7 +8,6 @@ enduro_system_group: "enduro"
 enduro_systemd_after_services: "network.target temporal.service"
 enduro_systemd_wantedby_services: "multi-user.target"
 enduro_temporal_namespace: "default" # By default only temporal-system namespace exists
-enduro_temporal_namespace_retention_period: 60 # In days
 enduro_debug_verbosity: 2
 enduro_debug_enabled: "true"
 enduro_listen_temporal_address: "127.0.0.1:7233"
