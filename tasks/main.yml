@@ -4,9 +4,6 @@
     that: ansible_service_mgr == 'systemd'
     msg: "This module only works with systemd"
   tags:
-    - enduro_install
-    - enduro_configure
-    - enduro_run
     - temporal_install
     - temporal_configure
     - temporal_run
@@ -18,19 +15,9 @@
     - "{{ ansible_distribution | lower }}.yml"
     - "{{ ansible_os_family | lower }}.yml"
   tags:
-    - enduro_install
-    - enduro_configure
-    - enduro_run
     - temporal_install
     - temporal_configure
     - temporal_run
-
-- import_tasks: preflight-enduro.yml
-  when: not enduro_install_rpm|bool
-  tags:
-    - enduro_install
-    - enduro_configure
-    - enduro_run
 
 - import_tasks: preflight-temporal.yml
   when: not temporal_install_rpm|bool
@@ -73,54 +60,6 @@
   tags:
     - temporal_configure
 
-- import_tasks: install-enduro.yml
-  when: not enduro_install_rpm|bool
-  become: true
-  tags:
-    - enduro_install
-
-- import_tasks: install-enduro-rpm.yml
-  when: enduro_install_rpm|bool
-  become: true
-  tags:
-    - enduro_install
-
-- import_tasks: configure-enduro.yml
-  become: true
-  tags:
-    - enduro_configure
-
-- import_tasks: configure-enduro-dashboard.yml
-  become: true
-  tags:
-    - enduro_configure_dashboard
-
-
-- import_tasks: install-enduro-am-worker-rpm.yml
-  when: enduro_am_worker_install_rpm|bool
-  become: true
-  tags:
-    - enduro_am_worker_install
-
-- import_tasks: configure-enduro-am-worker.yml
-  when: enduro_am_worker_configure|bool
-  become: true
-  tags:
-    - enduro_am_worker_configure
-
-- import_tasks: install-preprocessing-worker.yml
-  when: preprocessing_worker_install_rpm|bool
-  become: true
-  tags:
-    - preprocessing_worker_install
-
-- import_tasks: configure-preprocessing-worker.yml
-  when: preprocessing_worker_configure|bool
-  become: true
-  tags:
-    - preprocessing_worker_configure
-
-
 - import_tasks: install-temporal-ui.yml
   become: true
   when: temporal_ui_install|bool
@@ -141,33 +80,7 @@
     enabled: true
     state: "restarted"
   with_items:
-    - enduro
     - temporal
   tags:
-    - enduro_run
+    - temporal_run
 
-- name: Ensure enduro-am-worker is enabled on boot
-  become: true
-  systemd:
-    daemon_reload: true
-    name: "{{ item }}"
-    enabled: true
-    state: "restarted"
-  with_items:
-    - enduro-am-worker
-  when: enduro_am_worker_configure|bool
-  tags:
-    - enduro_am_worker_configure
-
-- name: Ensure preprocessing-worker is enabled on boot
-  become: true
-  systemd:
-    daemon_reload: true
-    name: "{{ item }}"
-    enabled: true
-    state: "restarted"
-  with_items:
-    - preprocessing-worker
-  when: preprocessing_worker_configure|bool
-  tags:
-    - preprocessing_worker_configure
