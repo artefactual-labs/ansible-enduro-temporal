@@ -7,9 +7,6 @@
     - enduro_install
     - enduro_configure
     - enduro_run
-    - temporal_install
-    - temporal_configure
-    - temporal_run
 
 - name: Gather variables for each operating system
   include_vars: "{{ item }}"
@@ -21,9 +18,6 @@
     - enduro_install
     - enduro_configure
     - enduro_run
-    - temporal_install
-    - temporal_configure
-    - temporal_run
 
 - import_tasks: preflight-enduro.yml
   when: not enduro_install_rpm|bool
@@ -31,47 +25,6 @@
     - enduro_install
     - enduro_configure
     - enduro_run
-
-- import_tasks: preflight-temporal.yml
-  when: not temporal_install_rpm|bool
-  tags:
-    - temporal_install
-    - temporal_configure
-    - temporal_run
-
-- import_tasks: preflight-tctl.yml
-  when: not tctl_install_rpm|bool
-  tags:
-    - tctl_install
-
-- import_tasks: install-temporal.yml
-  when: not temporal_install_rpm|bool
-  become: true
-  tags:
-    - temporal_install
-
-- import_tasks: install-tctl.yml
-  when: not tctl_install_rpm|bool
-  become: true
-  tags:
-    - tctl_install
-
-- import_tasks: install-temporal-rpm.yml
-  when: temporal_install_rpm|bool
-  become: true
-  tags:
-    - temporal_install
-
-- import_tasks: install-tctl-rpm.yml
-  when: tctl_install_rpm|bool
-  become: true
-  tags:
-    - tctl_install
-
-- import_tasks: configure-temporal.yml
-  become: true
-  tags:
-    - temporal_configure
 
 - import_tasks: install-enduro.yml
   when: not enduro_install_rpm|bool
@@ -90,18 +43,6 @@
   tags:
     - enduro_configure
 
-- import_tasks: install-temporal-ui.yml
-  become: true
-  when: temporal_ui_install|bool
-  tags:
-    - temporal_ui_install
-
-- import_tasks: configure-temporal-ui.yml
-  become: true
-  when: temporal_ui_install|bool
-  tags:
-    - temporal_ui_configure
-
 - name: Ensure services are enabled on boot
   become: true
   systemd:
@@ -111,6 +52,5 @@
     state: "restarted"
   with_items:
     - enduro
-    - temporal
   tags:
     - enduro_run
