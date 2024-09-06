@@ -13,14 +13,6 @@
     name: enduro-am-worker
     state: restarted
 
-- name: restart temporal
-  become: true
-  systemd:
-    daemon_reload: true
-    name: temporal
-    state: restarted
-
-
 - name: restart preprocessing-worker
   become: true
   systemd:

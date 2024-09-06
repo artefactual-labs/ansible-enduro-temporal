@@ -1,2 +1,2 @@
-# ansible-enduro-temporal
-Ansible role for deploying Enduro and Temporal
+# ansible-enduro
+Ansible role for deploying Enduro
