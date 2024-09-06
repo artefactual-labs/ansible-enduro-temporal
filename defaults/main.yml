@@ -53,9 +53,9 @@ enduro_db_name: "enduro"
 enduro_db_port: "3306"
 
 # Enduro pipelines
-enduro_filesystem_pipelines: []
+enduro_pipelines: []
 
-#enduro_filesystem_pipelines:
+#enduro_pipelines:
 #  - name: "pipeline1"
 #    baseURL: "http://pipeline1.archivematica.org"
 #    user: "test"
@@ -64,7 +64,9 @@ enduro_filesystem_pipelines: []
 #    processing_dir: ""
 #    processing_config: "automated"
 #    # transferLocationID = "88f6b517-c0cc-411b-8abf-79544ce96f54" #Optional
-#    storageServiceURL: "http://test:test@ss.archivematica.org:8000"
+#    storageServiceURL: "https://ss.archivematica.org:8000"
+#    storageServiceUser: "test"
+#    storageServiceKey: "test"
 #    capacity: 3
 #    retryDeadline: "10m"
 #    transferDeadline: "24h"
@@ -75,61 +77,4 @@ enduro_filesystem_pipelines: []
 #    watched_retentionPeriod: "0s"
 #    watched_ignore: "(^.gitkeep)|(^*.mft)$"
 #    watched_rejectDuplicates: "false"
-
-enduro_minio_pipelines: []
-
-#enduro_minio_pipelines:
-#  - name: "pipeline1"
-#    baseURL: "http://pipeline1.archivematica.org"
-#    user: "test"
-#    key: "test"
-#    transfer_dir: "/transfers/pipeline1"
-#    processing_dir: ""
-#    processing_config: "automated"
-#    # transferLocationID = "88f6b517-c0cc-411b-8abf-79544ce96f54" # Optional
-#    storageServiceURL: "http://test:test@ss.archivematica.org:8000"
-#    capacity: 3
-#    retryDeadline: "10m"
-#    transferDeadline: "24h"
-#    watched_name: "watched-pipeline1"
-#    watched_redisAddress: "redis://127.0.0.1:7470"
-#    watched_redisList: "minio-events"
-#    watched_endpoint: "http://127.0.0.1:7460"
-#    watched_pathStyle: "true"
-#    watched_key: "minio"
-#    watched_secret: "minio123"
-#    watched_region: "us-west-1"
-#    watched_bucket: "sips"
-#    watched_retentionPeriod: "10s"
-#    watched_stripTopLevelDir: "true"
-#    watched_rejectDuplicates: "false"
-
-enduro_sfa_pipelines: []
-
-#enduro_minio_pipelines:
-#  - name: "pipeline1"
-#    baseURL: "http://pipeline1.archivematica.org"
-#    user: "test"
-#    key: "test"
-#    transfer_dir: "/transfers/pipeline1"
-#    processing_dir: ""
-#    processing_config: "automated"
-#    # transferLocationID = "88f6b517-c0cc-411b-8abf-79544ce96f54" # Optional
-#    storageServiceURL: "http://test:test@ss.archivematica.org:8000"
-#    capacity: 3
-#    retryDeadline: "10m"
-#    transferDeadline: "24h"
-#    watched_name: "watched-pipeline1"
-#    watched_redisAddress: "redis://127.0.0.1:7470"
-#    watched_redisList: "minio-events"
-#    watched_endpoint: "http://127.0.0.1:7460"
-#    watched_pathStyle: "true"
-#    watched_key: "minio"
-#    watched_secret: "minio123"
-#    watched_region: "us-west-1"
-#    watched_bucket: "sips"
-#    watched_retentionPeriod: "10s"
-#    watched_stripTopLevelDir: "true"
-#    watched_rejectDuplicates: "false"
-
 
