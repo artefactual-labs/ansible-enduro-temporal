@@ -35,19 +35,6 @@
   when:
     - "enduro_storage_config is defined"
 
-- name: "Create watched.filesystem path directories"
-  become: yes
-  file:
-    path: "{{ item.watched_path }}"
-    state: "directory"
-    owner: "{{ enduro_system_user }}"
-    group: "{{ enduro_system_group }}"
-    mode: 0755
-  loop: "{{ enduro_filesystem_pipelines }}"
-  when:
-    - enduro_filesystem_pipelines|length > 0
-    - enduro_create_watched_filesystem_dir|bool
-
 - name: "Create pipeline Transferdir path directories when using watched filesystem"
   become: yes
   file:
@@ -56,20 +43,7 @@
     owner: "{{ enduro_system_user }}"
     group: "{{ enduro_system_group }}"
     mode: 0755
-  loop: "{{ enduro_filesystem_pipelines }}"
+  loop: "{{ enduro_pipelines }}"
   when:
-    - enduro_filesystem_pipelines|length > 0
-    - enduro_create_pipeline_transfer_dir|bool
-
-- name: "Create pipeline Transferdir path directories when using watched Minio"
-  become: yes
-  file:
-    path: "{{ item.transfer_dir }}"
-    state: "directory"
-    owner: "{{ enduro_system_user }}"
-    group: "{{ enduro_system_group }}"
-    mode: 0755
-  loop: "{{ enduro_minio_pipelines }}"
-  when:
-    - enduro_minio_pipelines|length > 0
+    - enduro_pipelines|length > 0
     - enduro_create_pipeline_transfer_dir|bool
